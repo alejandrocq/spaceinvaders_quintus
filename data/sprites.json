@@ -1,0 +1,58 @@
+{
+	"player":{
+		"sx": 375,
+		"sy": 431,
+		"cols": 1,
+		"tilew": 66,
+		"tileh": 35,
+		"frames": 1
+	},
+    
+    "enemie1":{
+		
+        "sx": 105,
+		"sy": 194,
+		"cols": 1,
+		"tilew": 68,
+		"tileh": 49,
+		"frames": 1
+	
+    },
+    
+    "enemie2":{
+		
+        "sx": 144,
+		"sy": 254,
+		"cols": 1,
+		"tilew": 51,
+		"tileh": 52,
+		"frames": 1
+	
+    },
+    
+    "playerprojectile":{
+		
+        "sx": 404,
+		"sy": 399,
+		"cols": 1,
+		"tilew": 8,
+		"tileh": 20,
+		"frames": 1
+	
+    },
+    
+    "enemieprojectile":{
+		
+        "sx": 52,
+		"sy": 251,
+		"cols": 1,
+		"tilew": 13,
+		"tileh": 26,
+		"frames": 1
+	
+    },
+    
+    
+    
+}
+		
