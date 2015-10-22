@@ -34,7 +34,7 @@ window.addEventListener("load", function () {
     //load assets
     Q.load("sprites.png, sprites.json", function() {    
     Q.compileSheets("sprites.png","sprites.json");
-    Q.stageScene("level1");
+    Q.stageScene("level");
   });
 
 });
