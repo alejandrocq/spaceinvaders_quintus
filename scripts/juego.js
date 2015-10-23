@@ -1,5 +1,5 @@
 window.addEventListener("load", function () {
-  var canvasWidth = 630, canvasHeight = 630;
+  var canvasWidth = 600, canvasHeight = 600;
   var Q = window.Q = new Quintus({development: true})
     .include("Scenes, Sprites, 2D, Input, Touch, UI, TMX, Audio")
     .setup({
@@ -33,8 +33,8 @@ window.addEventListener("load", function () {
     });
 
     //load assets
-    Q.loadTMX("level.tmx, sprites.jpg, sprites.json", function() {   
-        Q.compileSheets("sprites.jpg", "sprites.json");
+    Q.loadTMX("level.tmx, characters.jpg, sprites.json", function() {   
+        Q.compileSheets("characters.jpg", "sprites.json");
         Q.stageScene("level");
     });
 
