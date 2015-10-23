@@ -1,10 +1,10 @@
 {
 	"player":{
-		"sx": 375,
-		"sy": 431,
+		"sx": 449,
+		"sy": 348,
 		"cols": 1,
-		"tilew": 66,
-		"tileh": 35,
+		"tilew": 72,
+		"tileh": 32,
 		"frames": 1
 	},
     

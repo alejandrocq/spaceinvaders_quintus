@@ -8,7 +8,7 @@ window.addEventListener("load", function () {
       scaleToFit: true
     }).controls().touch();
     
-    //Q.gravityY = 0;
+    Q.gravityY = 0;
     
     
     //define player
@@ -33,8 +33,8 @@ window.addEventListener("load", function () {
     });
 
     //load assets
-    Q.loadTMX("level.tmx, sprites.png, sprites.json", function() {   
-        Q.compileSheets("sprites.png", "sprites.json");
+    Q.loadTMX("level.tmx, sprites.jpg, sprites.json", function() {   
+        Q.compileSheets("sprites.jpg", "sprites.json");
         Q.stageScene("level");
     });
 
