@@ -1,5 +1,6 @@
 window.addEventListener("load", function () {
   var canvasWidth = 600, canvasHeight = 600;
+  var lEnemies = 2;
   var Q = window.Q = new Quintus({development: true})
     .include("Scenes, Sprites, 2D, Input, Touch, UI, TMX, Audio")
     .setup({
@@ -22,6 +23,17 @@ window.addEventListener("load", function () {
             
         this.p.y -= this.p.h/2;
         this.add('2d, platformerControls');
+        }
+    });
+    
+    Q.Sprite.extend("LittleEnemy",{
+        init: function (p) {
+            this._super (p, {
+                sheet: "enemie".concat(Math.floor(lEnemies * Math.random())+1),
+                scale: 0.5,
+                vx: -50
+            });
+            this.add("2d, aiBounce");
         }
     });
 
