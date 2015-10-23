@@ -1,6 +1,5 @@
 window.addEventListener("load", function () {
-  var canvasWidth = 800, canvasHeight = 450;
-  var canvasWidth = 600, canvasHeight = 600;
+  var canvasWidth = 630, canvasHeight = 630;
   var Q = window.Q = new Quintus({development: true})
     .include("Scenes, Sprites, 2D, Input, Touch, UI, TMX, Audio")
     .setup({
@@ -9,8 +8,7 @@ window.addEventListener("load", function () {
       scaleToFit: true
     }).controls().touch();
     
-    Q.gravityY = 0;
-    
+    //Q.gravityY = 0;
     
     
     //define player
@@ -19,14 +17,11 @@ window.addEventListener("load", function () {
         init: function(p) {
             this._super(p, {
                 sheet: "player",
-                x: canvasWidth/2,
-                y: canvasHeight,
                 speed: 200
         });
             
         this.p.y -= this.p.h/2;
         this.add('2d, platformerControls');
-
         }
     });
 
@@ -35,13 +30,10 @@ window.addEventListener("load", function () {
     //define scene
     Q.scene("level", function(stage){
         Q.stageTMX("level.tmx", stage);
-        stage.insert(new Q.Player());
-      
     });
 
     //load assets
-    Q.loadTMX("level.tmx, border.png, sprites.png, sprites.json", function() {   
-        Q.compileSheets("sprites.png", "border.png", "sprites.json");
+    Q.loadTMX("level.tmx, sprites.png, sprites.json", function() {   
         Q.compileSheets("sprites.png", "sprites.json");
         Q.stageScene("level");
     });
