@@ -34,13 +34,13 @@ window.addEventListener("load", function () {
     //define scene
     Q.scene("level", function(stage){
         Q.stageTMX("level.tmx", stage);
-        //stage.insert(new Q.Player());
+        stage.insert(new Q.Player());
       
     });
 
     //load assets
-    Q.loadTMX("level.tmx, sprites.png, sprites.json", function() {   
-        Q.compileSheets("sprites.png","sprites.json");
+    Q.loadTMX("level.tmx, border.png, sprites.png, sprites.json", function() {   
+        Q.compileSheets("sprites.png", "border.png", "sprites.json");
         Q.stageScene("level");
     });
 
