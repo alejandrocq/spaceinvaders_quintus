@@ -27,13 +27,27 @@ window.addEventListener("load", function () {
     });
     
     Q.Sprite.extend("LittleEnemy",{
+        timer: 0.5,
+        
         init: function (p) {
             this._super (p, {
                 sheet: "enemie".concat(Math.floor(lEnemies * Math.random())+1),
                 scale: 0.5,
-                vx: -50
+                vx: -100,
             });
-            this.add("2d, aiBounce");
+            this.p.x -= this.p.w/2;
+            this.p.y -= this.p.h/2;
+            this.add("2d");
+        },        
+        
+        step: function (dt) {
+            this.timer -= dt;
+            if (this.timer <= 0){
+                var aux = this.p.vx;
+                this.p.vx = this.p.vy;
+                this.p.vy = -aux;
+                this.timer = 1;
+            }
         }
     });
 
