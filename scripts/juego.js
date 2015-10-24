@@ -1,6 +1,6 @@
 window.addEventListener("load", function () {
   var canvasWidth = 600, canvasHeight = 600;
-  var lEnemies = 2;
+  var lEnemies = 5;
   var Q = window.Q = new Quintus({development: true})
     .include("Scenes, Sprites, 2D, Input, Touch, UI, TMX, Audio")
     .setup({
@@ -10,6 +10,22 @@ window.addEventListener("load", function () {
     }).controls().touch();
     
     Q.gravityY = 0;
+    
+    Q.component ("aiLittle", {
+        added: function (){
+            var enemy = this.entity;
+            enemy.timer = 1;
+            enemy.step = function (dt) {
+                this.timer -= dt;
+                if (this.timer <= 0){
+                    var aux = this.p.vx;
+                    this.p.vx = this.p.vy;
+                    this.p.vy = -aux;
+                    this.timer = 2;
+                }
+            }
+        }
+    });
     
     
     //define player
@@ -26,29 +42,17 @@ window.addEventListener("load", function () {
         }
     });
     
-    Q.Sprite.extend("LittleEnemy",{
-        timer: 0.5,
-        
+    Q.Sprite.extend("LittleEnemy",{        
         init: function (p) {
             this._super (p, {
                 sheet: "enemie".concat(Math.floor(lEnemies * Math.random())+1),
                 scale: 0.5,
-                vx: -100,
+                vx: -40,
             });
             this.p.x -= this.p.w/2;
             this.p.y -= this.p.h/2;
-            this.add("2d");
+            this.add("2d, aiLittle");
         },        
-        
-        step: function (dt) {
-            this.timer -= dt;
-            if (this.timer <= 0){
-                var aux = this.p.vx;
-                this.p.vx = this.p.vy;
-                this.p.vy = -aux;
-                this.timer = 1;
-            }
-        }
     });
 
     Q.setImageSmoothing(false);

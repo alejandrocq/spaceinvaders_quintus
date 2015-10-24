@@ -30,6 +30,39 @@
 	
     },
     
+    "enemie3":{
+		
+        "sx": 346,
+		"sy": 160,
+		"cols": 1,
+		"tilew": 80,
+		"tileh": 64,
+		"frames": 1
+	
+    },
+    
+    "enemie4":{
+		
+        "sx": 453,
+		"sy": 160,
+		"cols": 1,
+		"tilew": 63,
+		"tileh": 64,
+		"frames": 1
+	
+    },
+    
+    "enemie5":{
+		
+        "sx": 125,
+		"sy": 238,
+		"cols": 1,
+		"tilew": 79,
+		"tileh": 64,
+		"frames": 1
+	
+    },
+    
     "playerprojectile":{
 		
         "sx": 404,
