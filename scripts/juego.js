@@ -64,6 +64,8 @@ window.addEventListener("load", function () {
             this.on("hit", function(collision) {
                 if (collision.obj.isA("projectile")) {
                     this.destroy();
+                    score += 100;
+                    document.getElementById("score").innerHTML = "Score: "+score;
                 }
             });
         },        
