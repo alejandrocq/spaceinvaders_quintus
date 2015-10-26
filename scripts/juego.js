@@ -1,6 +1,7 @@
 window.addEventListener("load", function () {
   var canvasWidth = 600, canvasHeight = 600;
   var lEnemies = 5;
+  var score = 0;
   var Q = window.Q = new Quintus({development: true})
     .include("Scenes, Sprites, 2D, Input, Touch, UI, TMX, Audio")
     .setup({
@@ -60,6 +61,11 @@ window.addEventListener("load", function () {
             this.p.x -= this.p.w/2;
             this.p.y -= this.p.h/2;
             this.add("2d, aiLittle");
+            this.on("hit", function(collision) {
+                if (collision.obj.isA("projectile")) {
+                    this.destroy();
+                }
+            });
         },        
     });
     
@@ -67,7 +73,7 @@ window.addEventListener("load", function () {
     Q.Sprite.extend("projectile", {
         init: function (p){
             this._super(p, {
-                sheet: "enemie1"
+                sheet: "playerprojectile"
             });
             this.add("2d");
             this.on("hit", this.destroy);

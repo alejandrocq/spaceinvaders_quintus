@@ -65,11 +65,11 @@
     
     "playerprojectile":{
 		
-        "sx": 404,
-		"sy": 399,
+        "sx": 480,
+		"sy": 324,
 		"cols": 1,
-		"tilew": 8,
-		"tileh": 20,
+		"tilew": 10,
+		"tileh": 17,
 		"frames": 1
 	
     },
