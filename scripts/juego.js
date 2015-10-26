@@ -10,7 +10,9 @@ window.addEventListener("load", function () {
     }).controls().touch();
     
     Q.gravityY = 0;
+
     
+    //define AI for little enemies
     Q.component ("aiLittle", {
         added: function (){
             var enemy = this.entity;
@@ -28,8 +30,7 @@ window.addEventListener("load", function () {
     });
     
     
-    //define player
-    
+    //define player    
     Q.Sprite.extend("Player",{
         init: function(p) {
             this._super(p, {
@@ -39,9 +40,16 @@ window.addEventListener("load", function () {
             
         this.p.y -= this.p.h/2;
         this.add('2d, platformerControls');
+        this.fire = function(){
+            var proj = new Q.projectile();
+            proj.set(this.p.x, this.p.y - this.p.h/2 - proj.p.h/2, -100);
+            Q.stage().insert(proj);
+        }
+        Q.input.on("fire", this, "fire");
         }
     });
     
+    //define little enemies
     Q.Sprite.extend("LittleEnemy",{        
         init: function (p) {
             this._super (p, {
@@ -54,12 +62,39 @@ window.addEventListener("load", function () {
             this.add("2d, aiLittle");
         },        
     });
+    
+    //define projectile
+    Q.Sprite.extend("projectile", {
+        init: function (p){
+            this._super(p, {
+                sheet: "enemie1"
+            });
+            this.add("2d");
+            this.on("hit", this.destroy);
+        },
+        set: function(posX, posY, v0) {
+            this.p.x = posX;
+            this.p.y = posY;
+            this.p.vy = v0;
+        }
+    });
 
     Q.setImageSmoothing(false);
+    
+    //add controls
+    Q.input.on ("P", null, pause);    
+    function pause () {
+        if (Q.state.get("pause"))
+            Q.unpauseGame();
+        else
+            Q.pauseGame();
+        Q.state.set("pause", !Q.state.get("pause"));
+    }
 
     //define scene
     Q.scene("level", function(stage){
         Q.stageTMX("level.tmx", stage);
+        Q.state.set ("pause", false);
     });
 
     //load assets
