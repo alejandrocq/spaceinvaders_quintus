@@ -53,6 +53,8 @@ window.addEventListener("load", function () {
                 sheet: "player",
                 speed: 200
         });    
+        
+        this.lives = 3;
         this.p.y -= this.p.h/2;
         this.add('2d, platformerControls');
         this.firebFunction = function () {
@@ -70,6 +72,19 @@ window.addEventListener("load", function () {
             
            
         }
+        
+        this.on("hit", function(collision) {
+            if(collision.obj.isA("projectile")) {
+                this.lives--;
+                document.getElementById("lives").innerHTML = "Lives: "+this.lives;
+                if (this.lives == 0) {
+                    this.destroy();
+                    Q.clearStages();
+                    Q.stageScene("endGame",1, { label: "You Lost!" });
+                }
+            }
+        })
+        
         Q.input.on("fire", this, "fire");
         }
     });
@@ -96,6 +111,7 @@ window.addEventListener("load", function () {
                         if (numberOfEnemies == 0) {
                             Q.clearStages();
                             Q.stageScene("endGame",1, { label: "You Won!" });
+                            
                         }
                     
                 }
@@ -137,6 +153,7 @@ window.addEventListener("load", function () {
         button.on("click",function() {
             Q.clearStages();
             Q.stageScene('level');
+            
         });
   
         box.fit(20);
@@ -152,10 +169,19 @@ window.addEventListener("load", function () {
         else
             Q.pauseGame();
         Q.state.set("pause", !Q.state.get("pause"));
-    } 
+    }
+    
+    function initializeData() {
+        score = 0;
+        lives = 3;
+        document.getElementById("score").innerHTML = "Score: "+score;
+        document.getElementById("lives").innerHTML = "Lives: "+lives;
+    }
+    
 
     //define scene
     Q.scene("level", function(stage){
+        initializeData();
         Q.stageTMX("level.tmx", stage);
         Q.state.set ("pause", false);
     });
