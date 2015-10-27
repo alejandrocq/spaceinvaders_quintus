@@ -16,13 +16,24 @@
     <script src="scripts/juego.js"></script>
     <style> 
       body { padding:0px; margin:0px; background-color: black;}
-      #score {font-family: Consolas,monaco,monospace; font-size: xx-large; color: darkgrey; position: fixed; right: 0px;}
-      #lives {font-family: Consolas,monaco,monospace; font-size: xx-large; color: darkgrey; position: fixed; right: 0px; padding-top: 20px;}
+      ul {list-style-type: none; position: fixed; right: 15px;}
+      ul li {font-family: Consolas,monaco,monospace; font-size: xx-large; color: grey;}
+      header {font-family: Consolas,monaco,monospace; font-size: 15px; color: white;}
     </style>
+    <audio controls id="song">
+        <source src="data/music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="shoot">
+        <source src="data/shoot.wav" type="audio/wav">
+    </audio>
   </head>
-  <body>
-      <p id="score">Score: 0</p><br>
-      <p id="lives">Lives: 3</p><br>
+    <header>Made by: Alejandro Castilla Quesada and Ismael Yeste Espín</header>
+    <body>
+        <script>//document.getElementById('song').autoplay = true;</script>
+      <ul>
+        <li id="score"></li>
+        <li id ="lives"></li>
+      </ul>
       
-  </body>
+    </body>
 </html>
