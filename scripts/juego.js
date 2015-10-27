@@ -1,7 +1,9 @@
 window.addEventListener("load", function () {
   var canvasWidth = 600, canvasHeight = 600;
   var lEnemies = 5;
+  var numberOfEnemies = 18;
   var score = 0;
+  var fireb = true;
   var Q = window.Q = new Quintus({development: true})
     .include("Scenes, Sprites, 2D, Input, Touch, UI, TMX, Audio")
     .setup({
@@ -15,6 +17,8 @@ window.addEventListener("load", function () {
     
     //define AI for little enemies
     Q.component ("aiLittle", {
+        
+        
         added: function (){
             var enemy = this.entity;
             enemy.timer = 1;
@@ -27,7 +31,18 @@ window.addEventListener("load", function () {
                     this.timer = 2;
                 }
             }
-        }
+            
+            enemy.interval = setInterval(this.fire, Math.random()*10000+6000, enemy);
+        },
+        
+        fire: function (enemy) {
+            
+            var proj = new Q.projectile();
+            proj.set(enemy.p.x, enemy.p.y + enemy.p.h/2 + proj.p.h/2, 100, true);
+            Q.stage().insert(proj);
+        
+        } 
+        
     });
     
     
@@ -37,14 +52,23 @@ window.addEventListener("load", function () {
             this._super(p, {
                 sheet: "player",
                 speed: 200
-        });
-            
+        });    
         this.p.y -= this.p.h/2;
         this.add('2d, platformerControls');
+        this.firebFunction = function () {
+            fireb = true;
+        }
         this.fire = function(){
-            var proj = new Q.projectile();
-            proj.set(this.p.x, this.p.y - this.p.h/2 - proj.p.h/2, -100);
-            Q.stage().insert(proj);
+            if (fireb) {
+                var proj = new Q.projectile();
+                proj.set(this.p.x, this.p.y - this.p.h/2 - proj.p.h/2, -100, false);
+                Q.stage().insert(proj);
+                fireb = false;
+                setTimeout(this.firebFunction, 1000);
+                
+            }
+            
+           
         }
         Q.input.on("fire", this, "fire");
         }
@@ -61,11 +85,19 @@ window.addEventListener("load", function () {
             this.p.x -= this.p.w/2;
             this.p.y -= this.p.h/2;
             this.add("2d, aiLittle");
+            this.p.collisionMask = 16;
             this.on("hit", function(collision) {
                 if (collision.obj.isA("projectile")) {
-                    this.destroy();
-                    score += 100;
-                    document.getElementById("score").innerHTML = "Score: "+score;
+                        this.destroy();
+                        numberOfEnemies--;
+                        clearInterval(this.interval);
+                        score += 100;
+                        document.getElementById("score").innerHTML = "Score: "+score;
+                        if (numberOfEnemies == 0) {
+                            Q.clearStages();
+                            Q.stageScene("endGame",1, { label: "You Won!" });
+                        }
+                    
                 }
             });
         },        
@@ -73,6 +105,7 @@ window.addEventListener("load", function () {
     
     //define projectile
     Q.Sprite.extend("projectile", {
+        
         init: function (p){
             this._super(p, {
                 sheet: "playerprojectile"
@@ -80,12 +113,34 @@ window.addEventListener("load", function () {
             this.add("2d");
             this.on("hit", this.destroy);
         },
-        set: function(posX, posY, v0) {
+        set: function(posX, posY, v0, enemy) {
             this.p.x = posX;
             this.p.y = posY;
             this.p.vy = v0;
+            if (enemy) {
+                this.p.collisionMask = 16;
+            }
         }
     });
+    
+    Q.scene('endGame',function(stage) {
+        
+        var box = stage.insert(new Q.UI.Container({
+            x: Q.width/2, y: Q.height/2, fill: "rgba(0,0,0,0.5)"
+        }));
+  
+        var button = box.insert(new Q.UI.Button({ x: 0, y: 0, fill: "#CCCCCC",
+                                           label: "Play Again" }))         
+        var label = box.insert(new Q.UI.Text({x:10, y: -10 - button.p.h, color: "#FFFFFF", 
+                                        label: stage.options.label }));
+        
+        button.on("click",function() {
+            Q.clearStages();
+            Q.stageScene('level');
+        });
+  
+        box.fit(20);
+});
 
     Q.setImageSmoothing(false);
     
@@ -97,7 +152,7 @@ window.addEventListener("load", function () {
         else
             Q.pauseGame();
         Q.state.set("pause", !Q.state.get("pause"));
-    }
+    } 
 
     //define scene
     Q.scene("level", function(stage){
