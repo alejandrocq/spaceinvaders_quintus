@@ -1,6 +1,7 @@
 window.addEventListener("load", function () {
   var canvasWidth = 600, canvasHeight = 600;
   var lEnemies = 5;
+  var numberOfEnemies = 18;
   var score = 0;
   var fireb = true;
   var Q = window.Q = new Quintus({development: true})
@@ -47,9 +48,10 @@ window.addEventListener("load", function () {
             enemy.on("hit", function(collision) {
                 if (collision.obj.isA("projectile")) {
                         enemy.destroy();                    
+                        numberOfEnemies--;
                         score += 100;
                         document.getElementById("score").innerHTML = "Score: "+score;
-                        if (score == 1800) {
+                        if (numberOfEnemies == 0) {
                             Q.clearStages();
                             Q.stageScene("endGame",1, { label: "You Won!" });
                             
@@ -81,7 +83,6 @@ window.addEventListener("load", function () {
                 var proj = new Q.projectile();
                 proj.set(this.p.x, this.p.y - this.p.h/2 - proj.p.h/2, -100, false);
                 Q.stage().insert(proj);
-                document.getElementById("shoot").play();
                 fireb = false;
                 setTimeout(this.firebFunction, 1000);
                 

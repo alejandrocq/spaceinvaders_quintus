@@ -37,19 +37,27 @@ window.addEventListener("load", function () {
                 }
             }
             
+<<<<<<< HEAD
+            enemy.interval = setInterval(this.fire, Math.random()*12000+5000, enemy);
+        },
+        
+        fire: function (enemy) {
+=======
             enemy.fire = function () {
                 var proj = new Q.projectile();
                 proj.set(enemy.p.x, enemy.p.y + enemy.p.h/2 + proj.p.h/2, 100, true);
                 Q.stage().insert(proj);
             } 
+>>>>>>> 88039e7d7e0bc82b37a42249a75bfb5ad3d84b26
             
             enemy.p.collisionMask = 16;
             enemy.on("hit", function(collision) {
                 if (collision.obj.isA("projectile")) {
                         enemy.destroy();                    
+                        numberOfEnemies--;
                         score += 100;
                         document.getElementById("score").innerHTML = "Score: "+score;
-                        if (score == 1800) {
+                        if (numberOfEnemies == 0) {
                             Q.clearStages();
                             Q.stageScene("endGame",1, { label: "You Won!" });
                             
@@ -117,6 +125,24 @@ window.addEventListener("load", function () {
             this.p.x -= this.p.w/2;
             this.p.y -= this.p.h/2;
             this.add("2d, aiLittle");
+<<<<<<< HEAD
+            this.p.collisionMask = 16;
+            this.on("hit", function(collision) {
+                if (collision.obj.isA("projectile")) {
+                        this.destroy();
+                        clearInterval(this.interval);
+                        score += 100;
+                        document.getElementById("score").innerHTML = "Score: "+score;
+                        if (score == 1800) {
+                            Q.clearStages();
+                            Q.stageScene("endGame",1, { label: "You Won!" });
+                            
+                        }
+                    
+                }
+            });
+=======
+>>>>>>> 88039e7d7e0bc82b37a42249a75bfb5ad3d84b26
         },        
     });
     
