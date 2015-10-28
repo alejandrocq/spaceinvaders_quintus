@@ -17,30 +17,55 @@ window.addEventListener("load", function () {
     //define AI for little enemies
     Q.component ("aiLittle", {
         
-        
         added: function (){
             var enemy = this.entity;
             enemy.timer = 1;
+            enemy.timer2 = Math.random()*10+6;
             enemy.step = function (dt) {
                 this.timer -= dt;
+                this.timer2 -= dt;
                 if (this.timer <= 0){
                     var aux = this.p.vx;
                     this.p.vx = this.p.vy;
                     this.p.vy = -aux;
                     this.timer = 2;
                 }
+                
+                if (this.timer2 <= 0){
+                    enemy.fire();
+                    this.timer2 = Math.random()*10+6;
+                }
             }
             
+<<<<<<< HEAD
             enemy.interval = setInterval(this.fire, Math.random()*12000+5000, enemy);
         },
         
         fire: function (enemy) {
+=======
+            enemy.fire = function () {
+                var proj = new Q.projectile();
+                proj.set(enemy.p.x, enemy.p.y + enemy.p.h/2 + proj.p.h/2, 100, true);
+                Q.stage().insert(proj);
+            } 
+>>>>>>> 88039e7d7e0bc82b37a42249a75bfb5ad3d84b26
             
-            var proj = new Q.projectile();
-            proj.set(enemy.p.x, enemy.p.y + enemy.p.h/2 + proj.p.h/2, 100, true);
-            Q.stage().insert(proj);
-        
-        } 
+            enemy.p.collisionMask = 16;
+            enemy.on("hit", function(collision) {
+                if (collision.obj.isA("projectile")) {
+                        enemy.destroy();                    
+                        numberOfEnemies--;
+                        score += 100;
+                        document.getElementById("score").innerHTML = "Score: "+score;
+                        if (numberOfEnemies == 0) {
+                            Q.clearStages();
+                            Q.stageScene("endGame",1, { label: "You Won!" });
+                            
+                        }
+                    
+                }
+            });
+        },
         
     });
     
@@ -100,6 +125,7 @@ window.addEventListener("load", function () {
             this.p.x -= this.p.w/2;
             this.p.y -= this.p.h/2;
             this.add("2d, aiLittle");
+<<<<<<< HEAD
             this.p.collisionMask = 16;
             this.on("hit", function(collision) {
                 if (collision.obj.isA("projectile")) {
@@ -115,6 +141,8 @@ window.addEventListener("load", function () {
                     
                 }
             });
+=======
+>>>>>>> 88039e7d7e0bc82b37a42249a75bfb5ad3d84b26
         },        
     });
     
